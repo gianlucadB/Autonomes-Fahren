@@ -1,0 +1,301 @@
+// Für Blinkschaltung Abb.1
+
+#include <Arduino.h>
+#define LED 2
+
+void setup() {
+  pinMode(LED,OUTPUT); 
+}
+
+void loop() {
+  digitalWrite(LED,HIGH);
+  delay(100);
+  digitalwrite(LED,LOW);
+  delay(100);
+}
+
+
+
+
+
+// Für Fahren (ohne autonom) Abb.2
+
+#include <Arduino.h>
+
+int carspeed = 1200;
+int right = 5;
+int left = 4;
+
+void forward(void){
+  analogWrite (right, carspeed);
+  analogWrite (left, carspeed);
+  digitalWrite (0, LOW);
+  digitalWrite (2, LOW);
+}
+
+void back (void) {
+  analogWrite (right, carspeed);
+  analogWrite (left, carspeed);
+  digitalWrite (0, HIGH);
+  digitalWrite(2, HIGH);
+}
+
+void stop(void){
+  analogWrite(right,0);
+  analogWrite(le£ft,0);
+}
+
+void turnleft (boolean backwards = false) {
+  analogWrite (right, carspeed);
+  analogWrite (left, carspeed);
+  digitalWrite(0,backwards);
+  digitalWrite(2, !backwards);
+}
+
+void turnright (boolean backwards = false) ({
+  analogWrite (right, carspeed);
+  analogWrite(left,carspeed);
+  digitalWrite(0, !backwards);
+  digitalWrite(2,backwards);
+)
+
+void driveleft (boolean backwards = false){
+  analogWrite(right,carspeed/5);
+  analogWrite (left, carspeed);
+  digitalWrite(0,backwards);
+  digitalWrite(2,backwards);
+}
+
+void driveright(boolean backwards = false){
+  analogWrite (right, carspeed);
+  analogWrite (left, carspeed/5);
+  digitalWrite(0,backwards) ;
+  digitalWrite(2,backwards);
+  void setup() {
+  Serial.begin (36000);
+  pinMode (right, OUTPUT) ;
+  pinMode (left, OUTPUT) ;
+  pinMode (0, OUTPUT) ;
+  pinMode (2, OUTPUT) ;
+}
+
+void loop() {
+  forward();
+  delay (2000);
+  stop);
+  delay(500);
+  back ();
+  delay (2000);
+  stop);
+  turnright ();
+  delay(500);
+  stop();
+  delay (500);
+  turnright (true) ;
+  delay(500);
+  stop();
+  delay(500);
+  turnleft();
+  delay(500);
+  stop();
+  delay(500);
+  turnleft (true);
+  delay(500);
+  stop();
+  delay(500);
+  driveright();
+  delay(500);
+  stop()7
+  delay(500);
+  driveright (true);
+  delay(500);
+  stop();
+  delay (500);
+  driveleft();
+  delay (500);
+  stop);
+  delay (500);
+  driveleft (true);
+  delay(500);
+  stop);
+  delay (500);
+}
+
+
+
+
+
+// Für Ultraschall und-Servo Abb.3
+
+#include <Arduino.h>
+#include <Servo.h>
+Servo myservo;
+
+int position = 0;
+const int waitTime = 5;
+
+1200;
+carspeedl * 0.65;
+
+int carspeedl
+int carspeedr
+int right 5;
+int left = 4
+
+int servozero = 180;
+int servoright = 215;
+int servoleft = 35;
+
+int trigger=D5;
+int echo=D6;
+long dauer=0;
+long entfernung=0;
+
+void stop (void) (
+  analogWrite (right, O0);
+  analogWrite (left,0);
+}
+
+void forward(int ddelay = -1){
+  analogWrite (right, carspeedr);
+  analogWrite (left, carspeedl);
+  digitalWrite (0, LOW);
+  digitalWrite (2,LOW);
+  if(ddelay != -1){
+  delay(ddelay);
+  stop();
+  delay(300);
+}
+
+void back (int ddelay = -1){
+  analogWrite (right, carspeedr);
+  analogWrite (left, carspeedl);
+  digitalWrite (0, HIGH);
+  digitalWrite (2,HIGH);
+  if(ddelay != -1){
+  delay(ddelay);
+  stop();
+  delay (300);
+  }
+}
+
+void turnleft (int ddelay, boolean backwards = false) {
+  analogWrite (right, carspeedr);
+  analogWrite (left, carspeedl);
+  digitalWrite (0,backwards);
+  digitalWrite (2, !backwards);
+  delay(ddelay);
+  stop();
+  delay (300);
+}
+
+void turnright (int ddelay, boolean backwards = false) {
+  analogWrite (right, carspeedr);
+  analogWrite (left, carspeedl);
+  digitalWrite (0, !backwards);
+  digitalWrite (2,backwards);
+  delay(ddelay);
+  stop();
+  delay (300);
+}
+
+void driveleft (int ddelay, boolean backwards = false) {
+  analogWrite (right, carspeedr/5);
+  analogWrite (left, carspeedl);
+  digitalWrite (0, backwards);
+  digitalWrite (2,backwards);
+  delay(ddelay);
+  stop();
+  delay (300);
+}
+
+void driveright (int ddelay, boolean backwards = false) {
+  analogWrite (right, carspeedr);
+  analogWrite (left, carspeedl/5);
+  digitalWrite (0, backwards);
+  digitalWrite (2,backwards);
+  delay(ddelay);
+  stop();
+  delay (300);
+}
+
+int distance() {
+  digitalWrite(trigger, LOW);
+  delay(5);
+  digitalWrite(trigger, HIGH);
+  delay(10);
+  digitalWrite(trigger, LOW);
+  dauer = pulseIn(echo, HIGH);
+  entfernung = (dauer/2) / 29.1;
+  Serial.print (entfernung);
+  Serial.printlın(" cm");
+  return( (int) entfernung);
+}
+
+void setup() {
+  Serial.begin (15200);
+  myservo.attach (D4);
+  pinMode (right, OUTPUT);
+  pinMode (left, OUTPUT) ;
+  pinMode (0, OUTPUT) ;
+  pinMode (2, OUTPUT) ;
+  pinMode(trigger, OUTPUT);
+  pinMode (echo, INPUT);
+}
+
+void loop() {
+  int entfernungzero = distance();
+  if(entfernungzero <= 10){
+  stop();
+  myservo.write (servoleft);
+  int entfernungleft = distance();
+  delay (1000);
+  myservo.write (servoright);
+  int entfernungright = distance();
+  delay (1000);
+  myservo.write (servozero);
+  if (entfernungleft <= entfernungright)
+  {
+  turnright (400);
+  }
+  else/
+  turnright (400);
+  }
+  }
+  else{
+  forward();
+}
+
+
+
+
+
+// Für Lichterkette Abb.4 
+
+#include <Arduino.h>
+#include <Adafruit_NeoPixel.h>
+
+int leds = 150;
+int ledPin = D2;
+
+int red = 0;
+int green = 0;
+int blue = 255;  
+
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(leds, ledPin, NEO_GRB + NEO_KHZ800);
+
+void setup() {
+  pinMode (ledPin, OUTPUT);
+  pixels.begin();
+  pixels.setBrightness(50); //Helligkeit: 0 (aus) - 255
+}
+
+void loop() {
+  for (int i = 0; i < leds; i++) {
+    pixels.setPixelColor(i, pixels.Color(red, green, blue));
+    pixels.show();
+    delay(100);
+  }
+  pixels.clear();
+  delay(100);
+}
