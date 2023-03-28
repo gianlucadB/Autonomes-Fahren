@@ -299,3 +299,50 @@ void loop() {
   pixels.clear();
   delay(100);
 }
+
+
+
+
+
+// Für Gas Sensor Abb. 5
+
+#include <Wire.h>
+#include <Seeed_BME680.h>
+
+#define BME680_ADDR 0x77
+
+Seeed_BME680 bme(BME680_ADDR);
+
+void setup() {
+  Serial.begin(9600);
+  while (!Serial) {}
+
+  if (!bme.begin()) {
+    Serial.println("Failed to start BME680 sensor!");
+    while (1);
+  }
+
+  Serial.println("BME680 Sensor initialized");
+}
+
+void loop() {
+  if (bme.checkStatus()) {
+    float temperature = bme.readTemperature();
+    float humidity = bme.readHumidity();
+    float pressure = bme.readPressure() / 100.0;
+    float airQuality = bme.readGasResistance() / 1000.0;
+
+    Serial.print("Temperature: ");
+    Serial.print(temperature);
+    Serial.print(" *C, Humidity: ");
+    Serial.print(humidity);
+    Serial.print(" %, Pressure: ");
+    Serial.print(pressure);
+    Serial.print(" hPa, Air Quality: ");
+    Serial.print(airQuality);
+    Serial.println(" kOhms");
+
+    delay(1000);
+  }
+}
+
